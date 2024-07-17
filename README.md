@@ -8,6 +8,8 @@ xAODAnaHelpers has is mostly written in c++, but as a user, one just has to crea
 
 There are example config files and run scripts in this repo.
 
+The output of xAODAnaHelpers will be a TTree containing all the relevant data. One can then use one of the notebooks in `./read_tree` to read in this TTree and output an h5 file with the ntuples. It's important to note that the trigger menu was changed relatively recently, so I have different `read_tree` examples for MC vs data.
+
 ## Setting up the TLA suite
 Fortunately there is good documentation for how to set up the TLA projects: https://gitlab.cern.ch:8443/tla-atlas-run3/tla-steering-run-3
 
@@ -55,3 +57,5 @@ make
 
 # Tutorial
 For a short tutorial regarding how to use xAODAnaHelpers, you can refer to https://gitlab.cern.ch/tofitsch/xaodanahelpersminimalexample. It's outdated and therefore won't work with this version of AnalysisBase, but reading it should give you some idea of how to actually use xAODAnaHelpers.
+
+The output after using xAODAnaHelpers is a TTree containing all the relevant data. One can then use one of the notebooks in the `read_tree` directory to read in the TTree, and output an h5 file with the ntuples. In practice you may need to make small edits to these notebooks depending on the branch names you use in your config file, and the data you're interested in saving (as well as the input/output paths).
