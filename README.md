@@ -59,3 +59,34 @@ make
 For a short tutorial regarding how to use xAODAnaHelpers, you can refer to https://gitlab.cern.ch/tofitsch/xaodanahelpersminimalexample. It's outdated and therefore won't work with this version of AnalysisBase, but reading it should give you some idea of how to actually use xAODAnaHelpers.
 
 The output after using xAODAnaHelpers is a TTree containing all the relevant data. One can then use one of the notebooks in the `read_tree` directory to read in the TTree, and output an h5 file with the ntuples. In practice you may need to make small edits to these notebooks depending on the branch names you use in your config file, and the data you're interested in saving (as well as the input/output paths).
+
+# Information about the Enhanced Bias data (slightly out of date, to be updated soon)
+Recent EB data gets repossessed weekly
+
+Weights are calculated for each (good) event
+
+Simulated L1 and HLT are applied and trigger decisions are saved (all with PS=1)
+
+Here’s a recent reprocessing: `https://its.cern.ch/jira/browse/ATR-28661`
+you can look at the HLT Reprocessings label to see them all
+By clicking on the Panda [task], then scroll down to the bottom Slice outputs: AOD and click the green ‘finished’ we can see the output collection was `data22_13p6TeV.00440499.physics_EnhancedBias.merge.AOD.r15247_r15248_p6016_tid36850978_00`
+
+EB weights are kept in XML files, which can be read in with a short script. 
+
+List of datasets and location of weight XMLs: `https://twiki.cern.ch/twiki/bin/viewauth/Atlas/EnhancedBiasData`
+
+Existing c++ tool to read the weights: `https://acode-browser1.usatlas.bnl.gov/lxr/source/athena/Trigger/TrigCost/EnhancedBiasWeighter/EnhancedBiasWeighter/EnhancedBiasWeighter.h`
+
+It ended up being easier to write our own python script to read in the weights from the XML: `/data_pipeline/EB_weighter.py`
+
+Simulated L1 and HLT trigger decisions can be accessed normally through the TrigDecisionTool (or normally through xAODAnaHelpers).
+
+
+EB data (with the weights) should be representative of the “as seen by L1” data, and can therefore be used for L1 studies.
+
+
+In order to obtain “as seen by HLT” data from the EB, we compiled a large list of PS=1 L1 physics triggers with the largest rates: `https://atlas-runquery.cern.ch/query.py?q=find+r+data22_13p6TeV.periodF+%2F+show+trigkeys`
+Click ‘rates’ to see rates of the triggers
+Then we made a dataset only with events that passed one of these triggers.
+
+Later this year, some folks are planning to collect a separate dataset which is streamed only based on HLT_noalg_L1All, which would directly be the “as seen by HLT” data.
